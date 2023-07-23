@@ -2,7 +2,7 @@
 An Autonomous Surface Vehicle For Ocean Research
 
 
-#Description
+# Description
 The costs associated with oceanic research can be daunting! 
 
 Gathering crucial data for effective surveillance of our world's oceans can often surpass budgetary capacities, placing it beyond the grasp of most ocean researchers.
@@ -18,7 +18,7 @@ We're committed to making ocean research open-source, affordable, and reliable, 
 
 # Specifications:
 
-Length: 	1200 mm
+<p>Length: 	1200 mm</p>
 Width: 		560 mm
 Weight: 	90 kg
 
