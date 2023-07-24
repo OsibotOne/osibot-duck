@@ -19,26 +19,42 @@ We're committed to making ocean research open-source, affordable, and reliable, 
 # Specifications:
 
 <p>Length: 	1200 mm</p>
-Width: 		560 mm
-Weight: 	90 kg
+<p>Width: 		560 mm</p>
+<p>Weight: 	90 kg</p>
+<p> </p>
+<p>Speed:          1-6 knots</p>
+<p>Range:          Unlimited</p>
+<p>Duration:       Unlimited</p>
+<p> </p>
+<p>Solar:          60 watts</p>
+<p>Batt A:         12V 30AH</p>
+<p>Batt B:         12V 30AH</p>
+<p> </p>
+<p>CPU:            Rpi Zero W</p>
+<p>Cam A:          Topside 4K</p>
+<p>Cam B:          Underwater 4K</p>
+<p> </p>
+<p>Autopilot:      Pixhawk Mini</p>
+<p>Comm A:         Starlink Swarm</p>
+<p>Comm B:         Spot Trace</p>
+<p> </p>
+<p>Steering:   	Rudder Servo</p>
+<p>Weather Rated: 	Cat 5 Cyclone</p>
+<p>Depth Rated:    90 Meters</p>
 
-Speed:          1-3 knots
-Range:          Unlimited
-Duration:       Unlimited
 
-Solar:          60 watts
-Batt A:         12V 30AH
-Batt B:         12V 30AH
+# Help Required
+1. Sattelite Communication Software Engineer
+2. Aluminium Welder/Fabricator
+3. Electrical Engineer
 
-CPU:            Rpi Zero W
-Cam A:          Topside 4K
-Cam B:          Underwater 4K
+# Funding Required
+1. $6200 for materials
+2. $1800 for testing
+3. $2000 for ocean launch
 
-Autopilot:      Pixhawk Mini
-Comm A:         Starlink Swarm
-Comm B:         Spot Trace
+# Website
+https://osibot.com/home/robots/osibot-ii-research-duck
 
-Steering:   	Rudder Servo
-Weather Rated: 	Cat 5 Cyclone
-Depth Rated:    90 Meters
-
+# Bill of Materials
+https://docs.google.com/spreadsheets/d/1u1EnCxgTUn3kaBPT9Yq8vcQk_B3RKaNwQOycpIH1iuE/edit?usp=sharing
