@@ -20,7 +20,7 @@ We're committed to making ocean research open-source, affordable, and reliable, 
 
 <p>Length: 	1200 mm</p>
 <p>Width: 		560 mm</p>
-<p>Weight: 	90 kg</p>
+<p>Weight: 	50 kg</p>
 <p> </p>
 <p>Speed:          1-6 knots</p>
 <p>Range:          Unlimited</p>
@@ -35,7 +35,7 @@ We're committed to making ocean research open-source, affordable, and reliable, 
 <p>Cam B:          Underwater 4K</p>
 <p> </p>
 <p>Autopilot:      Pixhawk Mini</p>
-<p>Comm A:         Starlink Swarm</p>
+<p>Comm A:         4G + Starlink</p>
 <p>Comm B:         Spot Trace</p>
 <p> </p>
 <p>Steering:   	Rudder Servo</p>
@@ -44,13 +44,13 @@ We're committed to making ocean research open-source, affordable, and reliable, 
 
 
 # Help Required
-1. Sattelite Communication Software Engineer
+1. Software Engineer
 2. Aluminium Welder/Fabricator
 3. Electrical Engineer
 
 # Funding Required
-1. $6200 for materials
-2. $1800 for testing
+1. $5200 for materials
+2. $1800 for lake testing
 3. $2000 for ocean launch
 
 # Website
