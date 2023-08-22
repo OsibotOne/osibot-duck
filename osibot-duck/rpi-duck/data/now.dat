@@ -1,0 +1,3 @@
+#Temp Data File
+#This file is is created everytime data is gathered and holds the latest data.
+#The contents of this file is ammended to the main data.dat file

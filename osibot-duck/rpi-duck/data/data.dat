@@ -1,0 +1,3 @@
+#Main Data Log File
+#This file is backed up and deleted every 24 hours
+#Each line is all variables every 5 minutes
