@@ -4,8 +4,8 @@ from datetime import datetime
 # Configuration
 HOST = "home235874866.1and1-data.host"
 PORT = 22
-USERNAME = "acc764515107"
-PASSWORD = "Nemo2023!"
+USERNAME = "*********"
+PASSWORD = "*********"
 
 
 def file_transfer_server(host, port, username, password):
