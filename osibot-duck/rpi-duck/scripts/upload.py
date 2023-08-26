@@ -31,9 +31,9 @@ def file_transfer_server(host, port, username, password):
         sftp.put(localpath="now.dat",
                  remotepath="/data/now.dat")
         # Close connection
-        ssh.close()
         sftp.close()
-
+        ssh.close()
+        
     except Exception as error:
         return f"{type(error).__name__}: {error}"
 
