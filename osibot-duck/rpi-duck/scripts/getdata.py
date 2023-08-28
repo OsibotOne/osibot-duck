@@ -1,3 +1,14 @@
+#
+# osibot-duck
+#
+# Get Data Script
+#
+# Record all data in now.dat (Overwrite file), then amend data to vessel.dat
+#
+# Changes Required:
+
+
+
 import time
 from datetime import datetime
 
@@ -33,16 +44,16 @@ def read_data(raw_data):
 
 def save_data(clean_data):
     """
-        Saving clean data to data.dat
+        Saving clean data to vessel.dat
         Args:
             clean_data: new data for saving
         Returns:
             error or completed message
      """
     try:
-        with open("./data.dat", 'a') as file:  # open data.dat as append only
+        with open("./home/pi/data/vessel.dat", 'a') as file:  # open vessel.dat as append only
             for line in clean_data:
-                file.write(line + '\n')        # write data into data.dat in right format
+                file.write(line + '\n')        # write data into vessel.dat in right format
                 
     except Exception as error:                 # If encounter an error, record as error, except all errors for now.
         return error
@@ -57,19 +68,19 @@ def main():
     now = datetime.now().strftime("%Y-%m-%d %H%M%S")  
     
     # Try to collect new data
-    is_read, result = read_data("./now.dat")
+    is_read, result = read_data("./home/pi/now/now.dat")
     
     # If collect successfully
     if is_read:
         # Save new data to main data file, record the result
         status = save_data(result)
-        with open("./log.dat", 'a') as file:      # open log.dat as append only
-            file.write(f"{now}:{status}" + '\n')  # write saving message to the file
+        with open("./home/pi/log/vessel.log", 'a') as file:      # open log.dat as append only
+            file.write(f"getdata.py:{now}:{status}" + '\n')  # write saving message to the file
             
     # If collect failed       
     else:
-        with open("./log.dat", 'a') as file:      # open log.dat as append only
-            file.write(f"{now}:{result}" + '\n')  # write saving message to the file
+        with open("./home/pi/log/vessel.log", 'a') as file:      # open log.dat as append only
+            file.write(f"getdata.py{now}:{result}" + '\n')  # write saving message to the file
 
 
 # The script can run individually or be part of other program.
