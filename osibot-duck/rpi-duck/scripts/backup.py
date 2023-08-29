@@ -3,63 +3,102 @@ import os
 import zipfile
 from datetime import datetime
 
-# Get date now
-now = datetime.now().strftime("%Y-%m-%d")
-try:
+
+def backup_internal(backup_folder, original_folders, date):
+    """Backup "data", "log", "image" folders to internal "backup" folder
+       Compress each folder individually as zip files
+
+       Args:
+           backup_folder (str): backup folder location
+           original_folders (list): list of folders to back up
+           date (str): date
+
+       Returns:
+           backup results
+    """
+    try:
+        # scan for each folder
+        for folder in original_folders:
+            shutil.copytree(folder, os.path.join(backup_folder, folder),
+                            dirs_exist_ok=True)  # Keep the original folder after coping
+            # delete all original files that have been copied
+            for dir_path, dir_names, filenames in os.walk(folder):
+                for file in filenames:
+                    os.remove(os.path.join(dir_path, file))
+
+            # compress each folder as a separate file in the folder "backups" and add date to the end of each file.
+            with zipfile.ZipFile(f"{backup_folder}{folder[:-1]}_backup_{date}.zip", "w") as zipf:
+                for file in os.listdir(f"{backup_folder}{folder}"):
+                    zipf.write(os.path.join(backup_folder, folder, file),
+                               arcname=os.path.join(folder, file))
+    except Exception as e:
+        return f"error: Internal backup error:{e}"
+    else:
+        return "Internal backup done"
+
+
+def backup_external(backup_folder, external_folder, date):
+    """Copy zip files to SSD
+
+        Args:
+            backup_folder (str): internal backup location
+            external_folder (str): external path
+            date (str): date
+        Returns:
+            copy results
+    """
+    # Check external SSD is accessible
+    try:
+        if os.path.exists(external_folder):
+            # Get list of all "zip" filenames
+            compress_files = [file
+                              for file in os.listdir(backup_folder)
+                              if file.endswith(".zip")]
+            # Copy compressed files to external SSD storage
+            for file in compress_files:
+                shutil.copy(f"{backup_folder}{file}", external_folder)
+
+        else:
+            return "SSD is not accessible"
+
+    except Exception as e:
+        return f"error: External backup error:{e}"
+
+    else:
+        # confirm all files have been copied to external SSD storage
+        copied_files = os.listdir(external_folder)
+        is_copied = True
+        copy_failed = ""  # empty store failed copy files
+        for file_name in copied_files:
+            if date not in file_name:
+                copy_failed = copy_failed + "," + file_name
+                is_copied = False
+        if is_copied:
+            for file in compress_files:
+                # Delete file after copied
+                os.remove(f"{backup_folder}{file}")
+            return "Files has copied to SSD"
+
+        else:
+            return f"Copied is incomplete: {copy_failed}"
+
+
+def main():
+    # Get date now
+    now = datetime.now().strftime("%Y-%m-%d")
     # Folder location
     backup_folder = "backup/"
     original_folders = ["data/", "logs/", "images/"]
-
-    # |------------------------------Internal Backup---------------------------------------|
-    # The loop scans the folders one by one and performs actions folder by folder
-    for folder in original_folders:
-        shutil.copytree(folder, os.path.join(backup_folder, folder),
-                        dirs_exist_ok=True)  # Keep the original folder after coping
-        
-        # Delete all original files that have been copied
-        for dir_path, dir_names, filenames in os.walk(folder):
-            for file in filenames:
-                os.remove(os.path.join(dir_path, file))
-
-        # compress each folder as a separate file in the folder "backups" and add date to the end of each file.
-        with zipfile.ZipFile(f"{backup_folder}{folder[:-1]}_backup_{now}.zip", "w") as zipf:
-            for file in os.listdir(f"{backup_folder}{folder}"):
-                zipf.write(os.path.join(backup_folder, folder, file))
-    # |--------------------------End of Internal Backup------------------------------------|
-
-
-    # |----------------------------Copy Backup to SSD--------------------------------------|
-    # Check external SSD is accessible
     ssd_path = "./ssd"
-    if os.path.exists(ssd_path):
-        # copy compressed files to external SSD storage
-        compress_files = [file for file in os.listdir(backup_folder) if file.endswith(".zip")]
-        for file in compress_files:
-            shutil.copy(f"{backup_folder}{file}", ssd_path)
-        # delete all files
-        for file in compress_files:
-            os.remove(f"{backup_folder}{file}")
-    else:
-        print("SSD is not accessible")
-
-    # confirm all files have been copied to external SSD storage
-    copied_files = os.listdir(ssd_path)
-    is_copied = True
-    for file_name in copied_files:
-        if now not in file_name:
-            is_copied = False
-    if is_copied:
-        print("Files has been copied")
-
+    # Run backup and get report
+    report_bk_internal = backup_internal(backup_folder, original_folders, now)
+    report_bk_ssd = backup_external(backup_folder, ssd_path, now)
     # Add backup report to log file.
-    report = f"Backup completed on {now}."
-    with open("backup_log.dat", "a") as log_file:
-        log_file.write(now + "Back up completed \n")
-    # |---------------------------End of copy to SSD---------------------------------------|
-
-# If error occur
-except Exception as error:
-    report = f"{now} {type(error).__name__}: {error})"
-    print(report)
+    report_final = f"{report_bk_internal}\n{report_bk_ssd}:{now}\n"
     with open("./backup/backup_log.dat", "a") as log_file:
-        log_file.write(report + "\n")
+        log_file.write(report_final)
+
+
+# The script can run individually or be part of other program.
+if __name__ == "__main__":
+    main()
