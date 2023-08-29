@@ -11,6 +11,7 @@ try:
     original_folders = ["data/", "logs/", "images/"]
 
     # |------------------------------Internal Backup---------------------------------------|
+    # The loop scans the folders one by one and performs actions folder by folder
     for folder in original_folders:
         shutil.copytree(folder, os.path.join(backup_folder, folder),
                         dirs_exist_ok=True)  # Keep the original folder after coping
@@ -28,7 +29,7 @@ try:
 
 
     # |----------------------------Copy Backup to SSD--------------------------------------|
-    # Check external SSD is accessible, if yes,
+    # Check external SSD is accessible
     ssd_path = "./ssd"
     if os.path.exists(ssd_path):
         # copy compressed files to external SSD storage
