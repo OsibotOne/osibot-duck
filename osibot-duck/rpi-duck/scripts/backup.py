@@ -10,11 +10,12 @@ try:
     backup_folder = "backup/"
     original_folders = ["data/", "logs/", "images/"]
 
-    # scan for each folder
+    # |------------------------------Internal Backup---------------------------------------|
     for folder in original_folders:
         shutil.copytree(folder, os.path.join(backup_folder, folder),
                         dirs_exist_ok=True)  # Keep the original folder after coping
-        # delete all original files that have been copied
+        
+        # Delete all original files that have been copied
         for dir_path, dir_names, filenames in os.walk(folder):
             for file in filenames:
                 os.remove(os.path.join(dir_path, file))
@@ -23,7 +24,10 @@ try:
         with zipfile.ZipFile(f"{backup_folder}{folder[:-1]}_backup_{now}.zip", "w") as zipf:
             for file in os.listdir(f"{backup_folder}{folder}"):
                 zipf.write(os.path.join(backup_folder, folder, file))
+    # |--------------------------End of Internal Backup------------------------------------|
 
+
+    # |----------------------------Copy Backup to SSD--------------------------------------|
     # Check external SSD is accessible, if yes,
     ssd_path = "./ssd"
     if os.path.exists(ssd_path):
@@ -50,6 +54,7 @@ try:
     report = f"Backup completed on {now}."
     with open("backup_log.dat", "a") as log_file:
         log_file.write(now + "Back up completed \n")
+    # |---------------------------End of copy to SSD---------------------------------------|
 
 # If error occur
 except Exception as error:
