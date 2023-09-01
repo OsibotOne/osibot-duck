@@ -66,7 +66,7 @@ def main():
     now = datetime.now().strftime("%Y-%m-%d %H%M%S")
     # Upload and Download file
     message = file_transfer_server(HOST, PORT, USERNAME, PASSWORD)
-    with open("./home/pi/data/comms.log", 'a') as file:       # open log.dat as append only
+    with open("./home/pi/data/comms.log", 'a') as file:       # open comms.log as append only
         file.write(f"{what}:{now}:{message}" + '\n')  # write saving message to the file
 
 # The script can run individually or be part of other program.
