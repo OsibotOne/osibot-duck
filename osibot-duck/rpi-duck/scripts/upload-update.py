@@ -54,10 +54,10 @@ def file_transfer_server(host, port, username, password):
         ssh.close()
         
     except Exception as error:
-        return f"{type(error).__name__}: {error}"
+        return f"error - {type(error).__name__}: {error}"
 
     else:
-        return "uploaded successfully"
+        return "successful"
 
 
 def main():
