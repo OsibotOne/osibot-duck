@@ -48,7 +48,7 @@ def main():
     f_date_time = datetime.now().strftime("%Y_%m_%d_%H_%M")  # date&time for filename
     # Upload and Download file
     message = file_transfer_server(HOST, PORT, USERNAME, PASSWORD, f_date_time)
-    with open("./home/pi/log/vessel.log", 'a') as file:  # open log.dat as append only
+    with open("./home/pi/log/vessel.log", 'a') as file:  # open vessel.log as append only
         file.write(f"{what}:{now}:{message}" + '\n')  # write saving message to the file
 
 
