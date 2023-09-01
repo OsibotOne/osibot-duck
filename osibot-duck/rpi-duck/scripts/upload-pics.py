@@ -1,4 +1,4 @@
- Pics Upload Script
+# Pics Upload Script
 #
 # Changes Required:
 # 1. Record output "upload-pics successful" to vessel.log file
