@@ -24,9 +24,13 @@ result = subprocess.run(command,
                         stderr=subprocess.PIPE,  # Capture standard error of the command
                         text=True  # Decode the output as text
                         )
-
+# Get result message
 if result.returncode == 0:
     shutil.copy("/img/cam1-web.jpeg", f"/img/cam1-{now}.jpeg")
-    print(f"getpic.py:{now}:Cam1 Image Saved Successfully")
+    message = f"Cam1 Image Saved Successfully"
 else:
-    print(f"getpic.py:{now}:There is an error:{result.stderr}")
+    message = f"There is an error:{result.stderr}"
+  
+# Saveing message
+with open("./home/pi/data/vessel.log", 'a') as file:  # open vessel.log as append only
+    file.write(f"getpic.py::{now}:{message}" + '\n')  # write saving message to the file
