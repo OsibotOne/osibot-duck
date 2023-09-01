@@ -11,7 +11,7 @@
 
 from paramiko import SSHClient, AutoAddPolicy
 from datetime import datetime
-
+import os
 # Configuration
 HOST = "home235874866.1and1-data.host"
 PORT = 22
@@ -19,8 +19,7 @@ USERNAME = "*********"
 PASSWORD = "*********"
 
 
-def file_transfer_server(host, port, username, password):
- 
+def file_transfer_server(host, port, username, password, upload_time):
     try:
         # Open SSH
         ssh = SSHClient()
@@ -28,31 +27,38 @@ def file_transfer_server(host, port, username, password):
         ssh.connect(host, port, username, password)
         # Open an SFTP
         sftp = ssh.open_sftp()
-        # Upload 
-        sftp.put(localpath="/home/pi/backup/now/vessel.dat",
-                 remotepath="/download/backup/vessel.dat")
-        # Upload 
-        sftp.put(localpath="/home/pi/backup/now/science.dat",
-                 remotepath="/download/backup/science.dat")
+        # rename
+        os.rename("home/pi/backup/now/vessel.dat",
+                  f"/download/backup/now/vessel_{upload_time}.dat")
+        
+        sftp.put(localpath=f"/download/backup/now/vessel_{upload_time}.dat",
+                 remotepath=f"/download/backup/vessel_{upload_time}.dat")
+        # Upload
+        os.rename("home/pi/backup/now/science.dat",
+                  f"/download/backup/now/science_{upload_time}.dat")
+        sftp.put(localpath=f"/download/backup/now/science_{upload_time}.dat",
+                 remotepath=f"/download/backup/science_{upload_time}.dat")
         # Close connection
         sftp.close()
         ssh.close()
-        
+
     except Exception as error:
-        return f"{type(error).__name__}: {error}"
+        return f"error - {type(error).__name__}: {error}"
 
     else:
-        return "uploaded successfully"
+        return "successful"
 
 
 def main():
     what = "upload-backup"
     # Get time now
     now = datetime.now().strftime("%Y-%m-%d %H%M%S")
+    f_date_time = datetime.now().strftime("%Y_%m_%d_%H_%M")  # date&time for filename
     # Upload and Download file
-    message = file_transfer_server(HOST, PORT, USERNAME, PASSWORD)
-    with open("./home/pi/data/comms.log", 'a') as file:       # open log.dat as append only
+    message = file_transfer_server(HOST, PORT, USERNAME, PASSWORD, f_date_time)
+    with open("./home/pi/data/comms.log", 'a') as file:  # open log.dat as append only
         file.write(f"{what}:{now}:{message}" + '\n')  # write saving message to the file
+
 
 # The script can run individually or be part of other program.
 if __name__ == "__main__":
