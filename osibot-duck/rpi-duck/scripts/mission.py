@@ -100,7 +100,7 @@ def main():
     # Pre-check MAV
     pre_check = disarm_mav(master)    # Return a tuple  (pre_arm_status, msg_check_arm)
 
-    if pre_check:
+    if pre_check[1] != False:
         # New Mission Command
         new_mode = new_mission("mission.file")  # The remote path according to the setting
         # Sets vehicle mode to AUTO (?)
@@ -122,7 +122,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-# https://mavlink.io/en/mavgen_python/
-# https://github.com/ArduPilot/pymavlink
-# https://www.ardusub.com/developers/pymavlink.html#armdisarm-the-vehicle
